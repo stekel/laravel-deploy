@@ -12,12 +12,22 @@ abstract class Site {
     protected $commands;
     
     /**
-     * Command runner
+     * Shell
      *
      * @var string
      */
-    protected $commandRunner = SystemCommand::class;
-
+    protected $shell;
+    
+    /**
+     * Construct
+     *
+     * @param string|Shell $shell
+     */
+    public function __construct($shell=Shell::class) {
+        
+        $this->shell = is_string($shell) ? new $shell() : $shell;
+    }
+    
     /**
      * Add a new command
      *
@@ -26,21 +36,7 @@ abstract class Site {
      */
     protected function command($command) {
         
-        $runner = $this->commandRunner;
-        
-        $this->commands[] = new $runner($command);
-    }
-    
-    /**
-     * Set the command runner class
-     *
-     * @param string $runner
-     */
-    public function setCommandRunner($runner) {
-        
-        $this->commandRunner = $runner;
-        
-        return $this;
+        $this->commands[] = $command;
     }
     
     /**
@@ -50,10 +46,8 @@ abstract class Site {
      */
     public function deploy() {
     
-        $results = [];
-        
         return collect($this->commands)->map(function($command) {
-            return $command->execute();
+            return $this->shell->system($command);
         })->toArray();
     }
 }

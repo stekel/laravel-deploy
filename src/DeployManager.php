@@ -29,16 +29,6 @@ class DeployManager {
     }
     
     /**
-     * Fake the deplyment implementation
-     *
-     * @return FakeDeployManager
-     */
-    public function fake() {
-    
-        return new FakeDeployManager($this->sites);
-    }
-    
-    /**
      * Set the site
      *
      * @param  string $name
@@ -53,7 +43,7 @@ class DeployManager {
             
         $class = $this->sites[$name];
         
-        $this->currentSite = new $class();
+        $this->currentSite = is_string($class) ? new $class() : $class;
         
         return $this;
     }
@@ -76,7 +66,7 @@ class DeployManager {
             
             $this->currentSite->$method();
             
-            return $this->currentSite;
+            return $this->currentSite->deploy();
         }
         
         throw new \Exception('Method '.$method.' does not exist on '.get_class($this->currentSite));
