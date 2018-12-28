@@ -21,6 +21,10 @@ class LaravelDeployServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->publishes([
+            __DIR__.'/../Config/deploy.php' => config_path('deploy.php'),
+        ]);
+        
         if ($this->app->runningInConsole()) {
             
             $this->commands([
@@ -36,6 +40,10 @@ class LaravelDeployServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->mergeConfigFrom(
+            __DIR__.'/../Config/deploy.php', 'deploy'
+        );
+        
         $this->app->singleton('deploy', function($app) {
             
             return new DeployManager();
