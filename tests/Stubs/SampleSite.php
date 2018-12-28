@@ -15,4 +15,17 @@ class SampleSite extends Site {
     
         $this->command('git pull');
     }
+    
+    /**
+     * SSH deploy
+     *
+     * @return void
+     */
+    public function viaSSH() {
+    
+        $this->ssh('samplehost.com', 'username', 'password', function($connection) {
+            
+            $connection->command('git pull');
+        });
+    }
 }

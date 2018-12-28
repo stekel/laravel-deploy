@@ -43,7 +43,7 @@ class DeployManager {
             
         $class = $this->sites[$name];
         
-        $this->currentSite = is_string($class) ? new $class() : $class;
+        $this->currentSite = is_string($class) ? new $class(new Shell()) : $class;
         
         return $this;
     }
