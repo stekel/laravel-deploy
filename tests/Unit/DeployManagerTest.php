@@ -39,4 +39,32 @@ class DeployManagerTest extends TestCase {
         
         $deploy->site('sample')->unknownDeployMethod();
     }
+    
+    /** @test **/
+    public function can_return_an_array_of_all_sites() {
+        
+        $deploy = new DeployManager([
+            'sample' => SampleSite::class,
+        ]);
+        
+        $this->assertEquals([
+            'sample' => [
+                'locally',
+                'viaSSH',
+            ],
+        ], $deploy->sites());
+    }
+    
+    /** @test **/
+    public function can_return_an_array_of_a_given_sites_deploy_options() {
+        
+        $deploy = new DeployManager([
+            'sample' => SampleSite::class,
+        ]);
+        
+        $this->assertEquals([
+            'locally',
+            'viaSSH',
+        ], $deploy->site('sample')->environments());
+    }
 }

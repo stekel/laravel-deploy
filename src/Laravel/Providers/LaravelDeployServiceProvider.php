@@ -46,7 +46,7 @@ class LaravelDeployServiceProvider extends ServiceProvider
         
         $this->app->singleton('deploy', function($app) {
             
-            return new DeployManager();
+            return new DeployManager(config('deploy.sites'));
         });
     }
     

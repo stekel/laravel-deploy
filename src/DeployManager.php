@@ -49,6 +49,28 @@ class DeployManager {
     }
     
     /**
+     * Return the array of sites
+     *
+     * @return array
+     */
+    public function sites() {
+    
+        return array_map(function($site) {
+            return array_diff(get_class_methods($site), ['__construct', 'output', 'deploy']);
+        }, $this->sites);
+    }
+    
+    /**
+     * Return the array of the given site's environments
+     *
+     * @return array
+     */
+    public function environments() {
+    
+        return array_diff(get_class_methods($this->currentSite), ['__construct', 'output', 'deploy']);
+    }
+    
+    /**
      * Magic call method
      *
      * @param  string $method

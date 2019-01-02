@@ -38,7 +38,12 @@ class SSH {
      */
     public function command($command) {
         
-        $this->output = array_merge($this->output, $this->connection->exec($command));
+        $this->output = array_merge($this->output, [
+            [
+                'command' => $command,
+                'result' => trim($this->connection->exec($command), "\n")
+            ]
+        ]);
     }
     
     /**
@@ -47,7 +52,7 @@ class SSH {
      * @return array
      */
     public function output() {
-    
+        
         return $this->output;
     }
 }

@@ -71,7 +71,14 @@ abstract class Site {
         
         $connection = is_null($this->ssh) ? new SSH2($url) : $this->ssh;
         
-        $connection->login($username, $password);
+        // define('NET_SSH2_LOGGING', SSH2::LOG_COMPLEX);
+        
+        if (! $connection->login($username, $password)) {
+            
+            // print_r($connection->getLog());
+            // print_r($connection->getErrors());
+            die('Connection failed.');
+        }
         
         $ssh = new SSH($connection);
         
@@ -86,7 +93,7 @@ abstract class Site {
      * @return string
      */
     public function output() {
-    
+        
         return $this->output;
     }
     
