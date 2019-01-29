@@ -4,15 +4,15 @@ namespace stekel\LaravelDeploy\Tests;
 
 use stekel\LaravelDeploy\Shell;
 use stekel\LaravelDeploy\Tests\Stubs\SampleSite;
-use stekel\LaravelDeploy\Tests\TestCase;
 use Mockery;
 use phpseclib\Net\SSH2;
 
-class SSHDeployTest extends TestCase {
+class SSHDeployTest extends TestCase
+{
     
     /** @test **/
-    public function can_deploy_a_sample_site_via_ssh_using_username_password_auth() {
-        
+    public function can_deploy_a_sample_site_via_ssh_using_username_password_auth()
+    {
         $ssh = Mockery::mock(SSH2::class);
         
         $ssh->shouldReceive('login')
@@ -22,14 +22,17 @@ class SSHDeployTest extends TestCase {
         $ssh->shouldReceive('exec')
             ->once()
             ->with('git pull')
-            ->andReturn([
-                'Repository updated successfully.',
-            ]);
+            ->andReturn("Repository updated successfully.\n");
         
         $site = new SampleSite(new Shell(), $ssh);
         
         $site->viaSSH();
         
-        $this->assertEquals(['Repository updated successfully.'], $site->output());
+        $this->assertEquals([
+            [
+                'command' => 'git pull',
+                'result' => 'Repository updated successfully.',
+            ],
+        ], $site->output());
     }
 }

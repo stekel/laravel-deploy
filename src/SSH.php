@@ -4,7 +4,8 @@ namespace stekel\LaravelDeploy;
 
 use phpseclib\Net\SSH2;
 
-class SSH {
+class SSH
+{
     
     /**
      * Connection
@@ -25,8 +26,8 @@ class SSH {
      *
      * @param SSH2 $connection
      */
-    public function __construct(SSH2 $connection) {
-        
+    public function __construct(SSH2 $connection)
+    {
         $this->connection = $connection;
     }
     
@@ -36,8 +37,8 @@ class SSH {
      * @param  string $command
      * @return void
      */
-    public function command($command) {
-        
+    public function command($command)
+    {
         $this->output = array_merge($this->output, [
             [
                 'command' => $command,
@@ -51,8 +52,8 @@ class SSH {
      *
      * @return array
      */
-    public function output() {
-        
+    public function output()
+    {
         return $this->output;
     }
 }
