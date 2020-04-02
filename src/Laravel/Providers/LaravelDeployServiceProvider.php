@@ -1,6 +1,6 @@
 <?php
 
-namespace stekel\LaravelDeploy;
+namespace stekel\LaravelDeploy\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use stekel\LaravelDeploy\Laravel\Console\LaravelDeploy as LaravelDeployCommand;
@@ -13,7 +13,7 @@ class LaravelDeployServiceProvider extends ServiceProvider
      * @var bool
      */
     protected $defer = true;
-    
+
     /**
      * Bootstrap the application services.
      *
@@ -24,9 +24,9 @@ class LaravelDeployServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../Config/deploy.php' => config_path('deploy.php'),
         ]);
-        
+
         if ($this->app->runningInConsole()) {
-            
+
             $this->commands([
                 LaravelDeployCommand::class,
             ]);
@@ -43,13 +43,13 @@ class LaravelDeployServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__.'/../Config/deploy.php', 'deploy'
         );
-        
+
         $this->app->singleton('deploy', function($app) {
-            
+
             return new DeployManager(config('deploy.sites'));
         });
     }
-    
+
     /**
      * Get the services provided by the provider.
      *
