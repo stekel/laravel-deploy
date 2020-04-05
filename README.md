@@ -15,7 +15,7 @@ Helpful command for deploying a given repository to a remote machine
 | v7.x | v3.x |
 
 Create the config file
-`php artisan vendor:publish --provider="stekel\LaravelDeploy\LaravelDeployServiceProvider"`
+`php artisan vendor:publish --provider="stekel\LaravelDeploy\Laravel\Providers\LaravelDeployServiceProvider"`
 
 Create a site configuration class
 ```php

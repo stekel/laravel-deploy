@@ -3,6 +3,7 @@
 namespace stekel\LaravelDeploy\Laravel\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use stekel\LaravelDeploy\DeployManager;
 use stekel\LaravelDeploy\Laravel\Console\LaravelDeploy as LaravelDeployCommand;
 
 class LaravelDeployServiceProvider extends ServiceProvider
