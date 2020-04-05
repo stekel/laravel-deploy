@@ -1,6 +1,6 @@
 <?php
 
-namespace stekel\LaravelDeploy\Providers;
+namespace stekel\LaravelDeploy\Laravel\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use stekel\LaravelDeploy\Laravel\Console\LaravelDeploy as LaravelDeployCommand;
