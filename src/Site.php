@@ -3,11 +3,11 @@
 namespace stekel\LaravelDeploy;
 
 use Closure;
-use phpseclib\Crypt\RSA;
-use phpseclib\Net\SSH2;
+use phpseclib3\Crypt\RSA;
+use phpseclib3\Net\SSH2;
 
-abstract class Site {
-
+abstract class Site
+{
     /**
      * Commands
      *
@@ -39,11 +39,10 @@ abstract class Site {
     /**
      * Construct
      *
-     * @param Shell $shell
-     * @param SSH2  $ssh
+     * @param  SSH2  $ssh
      */
-    public function __construct(Shell $shell, SSH2 $ssh=null) {
-
+    public function __construct(Shell $shell, SSH2 $ssh = null)
+    {
         $this->shell = $shell;
         $this->ssh = $ssh;
     }
@@ -51,11 +50,11 @@ abstract class Site {
     /**
      * Add a new command
      *
-     * @param  string $command
+     * @param  string  $command
      * @return void
      */
-    protected function command($command) {
-
+    protected function command($command)
+    {
         $this->commands[] = $command;
     }
 
@@ -65,20 +64,18 @@ abstract class Site {
      * @param  string  $url
      * @param  string  $username
      * @param  string  $password
-     * @param  Closure $callback
      * @return void
      */
-    protected function ssh($url, $username, $password, Closure $callback) {
-
+    protected function ssh($url, $username, $password, Closure $callback)
+    {
         $connection = is_null($this->ssh) ? new SSH2($url) : $this->ssh;
 
         // define('NET_SSH2_LOGGING', SSH2::LOG_COMPLEX);
 
         if (! $connection->login($username, $password)) {
-
             // print_r($connection->getLog());
             // print_r($connection->getErrors());
-            die('Connection failed.');
+            exit('Connection failed.');
         }
 
         $ssh = new SSH($connection);
@@ -94,11 +91,10 @@ abstract class Site {
      * @param  string  $url
      * @param  string  $username
      * @param  string  $keyPath
-     * @param  Closure $callback
      * @return void
      */
-    protected function sshWithKey($url, $username, $keyPath, Closure $callback) {
-
+    protected function sshWithKey($url, $username, $keyPath, Closure $callback)
+    {
         $connection = is_null($this->ssh) ? new SSH2($url) : $this->ssh;
         $key = new RSA();
         $key->loadKey(file_get_contents($keyPath));
@@ -119,8 +115,8 @@ abstract class Site {
      *
      * @return string
      */
-    public function output() {
-
+    public function output()
+    {
         return $this->output;
     }
 
@@ -129,9 +125,9 @@ abstract class Site {
      *
      * @return array
      */
-    public function deploy() {
-
-        $output = collect($this->commands)->map(function($command) {
+    public function deploy()
+    {
+        $output = collect($this->commands)->map(function ($command) {
             return $this->shell->system($command);
         })->toArray();
 

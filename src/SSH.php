@@ -2,25 +2,25 @@
 
 namespace stekel\LaravelDeploy;
 
-use phpseclib\Net\SSH2;
+use phpseclib3\Net\SSH2;
 
 class SSH
 {
-    
+
     /**
      * Connection
      *
      * @var SSH2
      */
     protected $connection;
-    
+
     /**
      * Output
      *
      * @var array
      */
     protected $output = [];
-    
+
     /**
      * Construct
      *
@@ -30,7 +30,7 @@ class SSH
     {
         $this->connection = $connection;
     }
-    
+
     /**
      * Run a command over the ssh connection
      *
@@ -46,7 +46,7 @@ class SSH
             ]
         ]);
     }
-    
+
     /**
      * Get the entire output array
      *
